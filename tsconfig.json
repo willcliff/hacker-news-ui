@@ -1,0 +1,32 @@
+/* {
+    "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es5",
+    "allowJs": true
+  }
+} */
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noUnusedParameters": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "target": "ES5",
+    "lib": [
+      "dom", "es5"
+    ]
+  },
+  "include": [
+    "app/**/*.ts",
+    "typings/index.d.ts"
+  ]
+}
