@@ -3,7 +3,7 @@ import { Item } from './models/item';
 export let dummyItem1: Item = {
     by: 'resters',
     descendants: 51,
-    id: 18402562,
+    id: 18403101,
     kids: [
         18403101,
         18403330,
@@ -31,7 +31,7 @@ export let dummyItem1: Item = {
 export let dummyItem2: Item = {
     by: 'syncsynchalt',
     descendants: 22,
-    id: 18400158,
+    id: 18403330,
     kids: [
         18401441,
         18403291,
@@ -70,7 +70,7 @@ export let dummyItemsArray: Array<Item> = [
     {
         by: 'resters',
         descendants: 51,
-        id: 18402562,
+        id: 18403101,
         kids: [
             18403101,
             18403330,
@@ -97,7 +97,7 @@ export let dummyItemsArray: Array<Item> = [
     {
         by: 'syncsynchalt',
         descendants: 22,
-        id: 18400158,
+        id: 18403330,
         kids: [
             18401441,
             18403291,

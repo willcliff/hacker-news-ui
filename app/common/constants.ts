@@ -8,5 +8,5 @@ export class Constants {
     public static readonly APPLICATION_JSON_TYPE = 'application/json';
 
     public static readonly TOP_ITEMS_URL = (requestType: string) => `${Constants.HACKERRANK_SERVICE_URL}${requestType}`;
-    public static readonly GET_ITEMS_URL = (itemId: string) => `${Constants.HACKERRANK_SERVICE_URL}item/${itemId}${Constants.JSON_RESPONSE}`;
+    public static readonly GET_ITEMS_URL = (itemId: number) => `${Constants.HACKERRANK_SERVICE_URL}item/${itemId}${Constants.JSON_RESPONSE}`;
 }

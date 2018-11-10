@@ -1,4 +1,4 @@
-import { Constants } from './../constants';
+import { Constants } from '../constants';
 import { Item } from '../models/item';
 // import { dummyTopStoriesResponse, dummyItem1, dummyItemsArray } from '../mock-objects';
 
@@ -12,7 +12,7 @@ export class HackerRankService {
     // private items = '';
     constructor(private $http: ng.IHttpService) { }
 
-    public getItem(itemId: string, callback: Function) {
+    public getItem(itemId: number, callback: Function) {
         let url = Constants.GET_ITEMS_URL(itemId);
         return this.$http.get(url, {
             headers: { ['Access-Control-Allow-Origin']: '*'}
@@ -29,8 +29,6 @@ export class HackerRankService {
     public getTopItemIds(requestType: string, callback: Function) {
         let url = Constants.TOP_ITEMS_URL(requestType);
         return this.$http.get(url, {
-            /* headers: { [Constants.CONTENT_TYPE]: Constants.APPLICATION_JSON_TYPE } */
-            /* headers: { ['Access-Control-Allow-Origin']: 'http://localhost:9001'} */
             headers: { ['Access-Control-Allow-Origin']: '*'}
         }).then(
             ((response: ng.IHttpResponse<Array<string>>): void => {

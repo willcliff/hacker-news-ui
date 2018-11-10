@@ -4,35 +4,39 @@ import { Constants } from '../common/constants';
 import { Item } from '../common/models/item';
 
 export class HomeController implements ng.IController {
-    public $inject = ['$document', 'HackerRankService', '$uibModal'];
-    public itemIds: Array<string>;
+    public $inject = ['$document', 'HackerRankService'];
+    public itemIds: Array<number>;
 
-    private beginItemsToDisplay = 0;
+    private currentItemsDisplayed = 0;
     private numItemsToDisplay = 30;
 
-    constructor(public $document: ng.IDocumentService, public hackerRankService: HackerRankService) {
-        hackerRankService.getTopItemIds(Constants.TOP_STORIES, (error: any, response: any) => {
-            if (!error) {
+    constructor(public $document: ng.IDocumentService, public hackerRankService: HackerRankService) { }
+
+    public $onInit() {
+        this.hackerRankService.getTopItemIds(Constants.TOP_STORIES, (error: any, response: Array<number>) => {
+            if (response && response.length > 0) {
                 this.itemIds = response;
-                this.retrieveItem(response);
+                    this.retrieveItems(response);
+            } else {
+                console.log(error);
             }
         });
     }
 
-    public retrieveItem(itemIds: Array<string>, incrementStartNum?: number) {
-        if (incrementStartNum) {
-            this.beginItemsToDisplay = incrementStartNum;
-            this.numItemsToDisplay = this.numItemsToDisplay + incrementStartNum;
+    public retrieveItems(itemIds: Array<number>, currentItemsDisplayed?: number) {
+        if (currentItemsDisplayed) {
+            this.currentItemsDisplayed = currentItemsDisplayed;
+            this.numItemsToDisplay = this.numItemsToDisplay + currentItemsDisplayed;
         }
-        itemIds.slice(this.beginItemsToDisplay, this.numItemsToDisplay).forEach((itemId: string, index: number) => {
-            this.hackerRankService.getItem(itemId, (getItemError: any, item: Item) => {
-                if (!getItemError) {
-                    this.hackerRankService.setItems(item);
-                    this.beginItemsToDisplay = index + 1;
-                } else {
-                    console.log('WILL TEST = ', getItemError);
-                }
+            itemIds.slice(this.currentItemsDisplayed, this.numItemsToDisplay).forEach((itemId: number, index: number) => {
+                this.hackerRankService.getItem(itemId, (getItemError: any, item: Item) => {
+                    if (!getItemError) {
+                        this.hackerRankService.setItems(item);
+                        this.currentItemsDisplayed = index + 1;
+                    } else {
+                        console.log(getItemError);
+                    }
+                });
             });
-        });
     }
 }
