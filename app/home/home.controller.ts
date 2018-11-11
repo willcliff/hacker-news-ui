@@ -26,8 +26,6 @@ export class HomeController implements ng.IController {
     public retrieveItems(itemIds: Array<number>, currentItemsDisplayed?: number) {
         if (currentItemsDisplayed) {
             this.currentItemsDisplayed = currentItemsDisplayed;
-            console.log('WIll test currentItemsDisplayed = ', currentItemsDisplayed);
-            console.log('WIll test numItemsToDisplay = ', this.numItemsToDisplay);
         }
         itemIds.slice(this.currentItemsDisplayed, this.currentItemsDisplayed + this.numItemsToDisplay).forEach((itemId: number) => {
             this.hackerRankService.getItem(itemId, (getItemError: any, item: Item) => {
