@@ -1,0 +1,19 @@
+<div class="media hacker-item text-muted pt-3">
+  <strong class="item-num">{{$parent.$index + 1}} |</strong>
+  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+    <strong class="d-block text-gray-dark item-user-name">@{{ctrl.data.by}}</strong>
+    <a href="{{ctrl.data.url}}"><strong class="item-title">{{ctrl.data.title}}</strong></a>
+      <button type="button" class="btn btn-default" ng-click="ctrl.toggleComments(ctrl.data.kids, ctrl.numItemsToDisplay)" aria-label="Left Align">
+          <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+          <span>{{ctrl.data.kids.length}}</span>
+        </button>      
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            <span>{{ctrl.data.score}}</span>
+          </button>
+      </p>
+  </div>
+  <div ng-if="!ctrl.isCollapsed">
+      <hacker-comment comment="comment" commentNum="$index" ng-repeat="comment in ctrl.hackerRankService.getComments()"></hacker-comment>
+  </div>
+      

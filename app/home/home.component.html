@@ -1,14 +1,13 @@
 <div class="container">
+  <div class="header-text d-flex align-items-center box-shadow">
+    <h1>Recent updates</h1>
+  </div>
+  <div class="canvas jumbotron">
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <hacker-item data="item" itemNum="$index" ng-repeat="item in ctrl.hackerRankService.getStories()"></hacker-item>
 
-    <div class="header-text d-flex align-items-center box-shadow">
-        <h1>Recent updates</h1>
-      </div>
-    <div class="home jumbotron">
-            <div class="my-3 p-3 bg-white rounded shadow-sm">
-                    <hacker-item data="item" itemNum="$index" ng-repeat="item in ctrl.hackerRankService.getItems()"></hacker-item>
-
-                    <small class="expand-text d-block text-right mt-3">
-                      <a href="" ng-click="ctrl.retrieveItem(ctrl.itemIds, ctrl.numItemsToDisplay)">See more</a>
-                    </small>
-                  </div>            
-</div>
+      <small class="expand-text d-block text-right mt-3">
+        <a href="" ng-click="ctrl.retrieveItems(ctrl.itemIds, ctrl.numItemsToDisplay)">See more</a>
+      </small>
+    </div>
+  </div>

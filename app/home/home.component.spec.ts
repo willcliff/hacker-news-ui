@@ -24,13 +24,13 @@ describe('HomeController', () => {
                         expect(requestType).toEqual(Constants.TOP_STORIES);
                         callback(null, dummyTopStoriesResponse);
                     };
-                    this.setItems = (item: Item) => {
-                        this.items.push(item);
+                    this.setStories = (story: Item) => {
+                        this.stories.push(story);
                     };
-                    this.getItems = () => {
-                        return this.items;
+                    this.getStories = () => {
+                        return this.stories;
                     };
-                    this.items = [];
+                    this.stories = [];
                 });
             });
     });
@@ -54,15 +54,17 @@ describe('HomeController', () => {
 
         it('should create an instance of HomeController', () => {
             expect(ctrl).toBeDefined();
+            spyOn(ctrl.hackerRankService, 'getTopItemIds');
             ctrl.$onInit();
         });
 
-        it('should retrieve the topItemIds when the constructor is initialised', () => {
+        it('should retrieve the topStoryIds when the constructor is initialised', () => {
             expect(ctrl).toBeDefined();
-            spyOn(ctrl.hackerRankService, 'getTopItemIds');
+            spyOn(ctrl.hackerRankService, 'getTopItemIds').and.callThrough();
             ctrl.numItemsToDisplay = 5;
             ctrl.$onInit();
             expect(ctrl.hackerRankService.getTopItemIds).toHaveBeenCalled();
+            expect(ctrl.itemIds).toEqual(dummyTopStoriesResponse);
         });
 
         it('should log an error if an error occues retrieving the topItemIds', () => {
@@ -94,7 +96,7 @@ describe('HomeController', () => {
             ctrl.currentItemsDisplayed = 0;
             ctrl.numItemsToDisplay = 5;
             ctrl.retrieveItems(dummyTopStoriesResponse);
-            expect(ctrl.hackerRankService.items.length).toEqual(ctrl.currentItemsDisplayed);
+            expect(ctrl.hackerRankService.stories.length).toEqual(ctrl.currentItemsDisplayed);
         });
 
         it('should log an error if an error occues retrieving an item', () => {
@@ -109,15 +111,15 @@ describe('HomeController', () => {
         });
 
         it('should retrieve the next 5 items when retrievItems is called a second time  and set currentItemsDisplayed as 10', () => {
-            spyOn(ctrl.hackerRankService, 'setItems').and.callThrough();
+            spyOn(ctrl.hackerRankService, 'setStories').and.callThrough();
             ctrl.currentItemsDisplayed = 0;
             ctrl.numItemsToDisplay = 5;
             ctrl.retrieveItems(dummyTopStoriesResponse);
-            expect(ctrl.hackerRankService.items.length).toEqual(ctrl.numItemsToDisplay);
+            expect(ctrl.hackerRankService.stories.length).toEqual(ctrl.numItemsToDisplay);
 
             ctrl.retrieveItems(dummyTopStoriesResponse, ctrl.currentItemsDisplayed);
-            expect(ctrl.hackerRankService.setItems).toHaveBeenCalledTimes(10);
-            expect(ctrl.hackerRankService.items.length).toEqual(10);
+            expect(ctrl.hackerRankService.setStories).toHaveBeenCalledTimes(10);
+            expect(ctrl.hackerRankService.stories.length).toEqual(10);
         });
 
     });

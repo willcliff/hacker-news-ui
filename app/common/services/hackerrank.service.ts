@@ -1,15 +1,14 @@
 import { Constants } from '../constants';
 import { Item } from '../models/item';
-// import { dummyTopStoriesResponse, dummyItem1, dummyItemsArray } from '../mock-objects';
 
 export class HackerRankService {
     public static NAME = 'hackerRankService';
-    public errorOccurred = false;
-    public errorMessage = '';
-    public items: Array<Item> = [];
+
+    public stories: Array<Item> = [];
+    public comments: Array<Item> = [];
+    public currentViewedItem: string;
 
     public $inject = ['$http'];
-    // private items = '';
     constructor(private $http: ng.IHttpService) { }
 
     public getItem(itemId: number, callback: Function) {
@@ -39,12 +38,23 @@ export class HackerRankService {
             }));
     }
 
-    public getItems() {
-        return this.items;
+    public getStories() {
+        return this.stories;
     }
 
-    public setItems(item: Item) {
-        this.items.push(item);
+    public setStories(story: Item) {
+        this.stories.push(story);
+    }
+
+    public getComments() {
+        return this.comments;
+    }
+
+    public setComments(comment: Item) {
+        this.comments.push(comment);
+    }
+
+    public clearComments() {
+        this.comments = [];
     }
 }
-

@@ -82,15 +82,37 @@ describe('Service: siteService', () => {
   describe('should get and set items', () => {
 
     it('should set the items', () => {
-      hackerRankService.items = [];
-      hackerRankService.setItems(dummyItem1);
-      hackerRankService.setItems(dummyItem2);
-      expect(hackerRankService.items).toEqual(dummyItemsArray);
+      hackerRankService.stories = [];
+      hackerRankService.setStories(dummyItem1);
+      hackerRankService.setStories(dummyItem2);
+      expect(hackerRankService.stories).toEqual(dummyItemsArray);
     });
 
     it('should get the items', () => {
-      hackerRankService.items = dummyItemsArray;
-      expect(hackerRankService.getItems()).toEqual(dummyItemsArray);
+      hackerRankService.stories = dummyItemsArray;
+      expect(hackerRankService.getStories()).toEqual(dummyItemsArray);
+    });
+
+  });
+
+  describe('should get and set items', () => {
+
+    it('should set the comments', () => {
+      hackerRankService.comments = [];
+      hackerRankService.setComments(dummyItem1);
+      hackerRankService.setComments(dummyItem2);
+      expect(hackerRankService.comments).toEqual(dummyItemsArray);
+    });
+
+    it('should get the comments', () => {
+      hackerRankService.comments = dummyItemsArray;
+      expect(hackerRankService.getComments()).toEqual(dummyItemsArray);
+    });
+
+    it('should clear the comments', () => {
+      hackerRankService.comments = dummyItemsArray;
+      hackerRankService.clearComments();
+      expect(hackerRankService.comments).toEqual([]);
     });
 
   });

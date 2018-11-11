@@ -8,7 +8,7 @@ export class HomeController implements ng.IController {
     public itemIds: Array<number>;
 
     private currentItemsDisplayed = 0;
-    private numItemsToDisplay = 30;
+    private numItemsToDisplay = 20;
 
     constructor(public $document: ng.IDocumentService, public hackerRankService: HackerRankService) { }
 
@@ -31,7 +31,7 @@ export class HomeController implements ng.IController {
             itemIds.slice(this.currentItemsDisplayed, this.numItemsToDisplay).forEach((itemId: number, index: number) => {
                 this.hackerRankService.getItem(itemId, (getItemError: any, item: Item) => {
                     if (!getItemError) {
-                        this.hackerRankService.setItems(item);
+                        this.hackerRankService.setStories(item);
                         this.currentItemsDisplayed = index + 1;
                     } else {
                         console.log(getItemError);

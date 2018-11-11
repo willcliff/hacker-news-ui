@@ -4,8 +4,18 @@
     color: white;
 }
 
+.hacker-item a {
+    color: #6c757d !important;
+    text-decoration: none;
+    background-color: transparent;
+}
+
 .hacker-item .glyphicon{
     font-size: 15px;
+    padding: 0px 5px;
+}
+
+.hacker-item .btn.btn-default{
     color: #ff6600;
 }
 
