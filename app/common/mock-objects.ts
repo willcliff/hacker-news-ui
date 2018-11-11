@@ -48,7 +48,7 @@ export let dummyItem2: Item = {
     url: 'https://tls13.ulfheim.net/'
 };
 
-export let dummyTopStoriesResponse: Array<number> = [
+export let dummyTopItemsResponse: Array<number> = [
     18403101,
     18403330,
     18402787,

@@ -9,7 +9,7 @@ export class CommentsController implements ng.IController {
     }
 
     public $onInit() {
-        console.log('WILL COMMENT ARRAY = ', this.hackerRankService.getComments());
+        // Display child comments
     }
 
 

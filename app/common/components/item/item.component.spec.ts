@@ -2,8 +2,10 @@ import { ItemComponent } from '../item/item.component';
 import { app } from '../../../app';
 import { Constants } from '../../constants';
 import { HackerRankService } from '../../services/hackerrank.service';
+import { dummyTopItemsResponse, dummyItem1 } from '../../mock-objects';
+import { Item } from '../../models/item';
 
-describe('HomeController', () => {
+describe('ItemController', () => {
 
     let ctrl: any;
     let $componentController: angular.IComponentControllerService;
@@ -12,7 +14,29 @@ describe('HomeController', () => {
 
     beforeEach(() => {
         angular.mock.module('ui.router');
-        angular.mock.module(app.name);
+        angular.mock.module(app.name,
+            (_$provide_: angular.auto.IProvideService) => {
+                _$provide_.service(HackerRankService.NAME, function () {
+                    this.getItem = (itemId: any, callback: Function) => {
+                        expect(itemId).toBeDefined();
+                        callback(null, dummyItem1);
+                    };
+                    this.getTopItemIds = (requestType: string, callback: Function) => {
+                        expect(requestType).toEqual(Constants.TOP_STORIES);
+                        callback(null, dummyTopItemsResponse);
+                    };
+                    this.setComments = (story: Item) => {
+                        this.comments.push(story);
+                    };
+                    this.getComments = () => {
+                        return this.comments;
+                    };
+                    this.clearComments = () => {
+                        this.comments = [];
+                    };
+                    this.comments = [];
+                });
+            });
     });
 
     beforeEach(inject(
@@ -30,7 +54,7 @@ describe('HomeController', () => {
                     $document: $document,
                     hackerRankService: _hackerRankService_
                 });
-                ctrl.$onInit();
+            ctrl.$onInit();
         }));
 
     describe('$onInit', () => {
@@ -69,13 +93,51 @@ describe('HomeController', () => {
 
     describe('toggleComments', () => {
 
-        it('should reset and close the comments when the the close comments event is broadcast and the comments are open', () => {
+        it('should retrieve and display the comments and close other comments when the button is toggled', () => {
             spyOn(ctrl.hackerRankService, 'clearComments');
+            spyOn(ctrl, 'retrieveComments');
+            spyOn($rootScope, '$broadcast');
+            $rootScope.$broadcast(Constants.CLOSE_OPEN_COMMENTS);
+
+            ctrl.isCollapsed = true;
+            ctrl.toggleComments(dummyItem1.kids);
+            expect($rootScope.$broadcast).toHaveBeenCalledWith(Constants.CLOSE_OPEN_COMMENTS);
+            expect(ctrl.retrieveComments).toHaveBeenCalled();
+            expect(ctrl.isCollapsed).toEqual(false);
+        });
+
+        it('should not retrieve the comments and close the comment display when the button is toggled', () => {
+            spyOn(ctrl, 'resetComments').and.callThrough();
+            spyOn(ctrl, 'retrieveComments');
             ctrl.isCollapsed = false;
-            ctrl.resetComments();
-            expect(ctrl.hackerRankService.clearComments).toHaveBeenCalled();
+            ctrl.toggleComments(dummyItem1.kids);
+            expect(ctrl.retrieveComments).not.toHaveBeenCalled();
+            expect(ctrl.resetComments).toHaveBeenCalled();
             expect(ctrl.isCollapsed).toEqual(true);
-          });
+        });
+
+    });
+
+    describe('retrieveComments', () => {
+
+        it('should retrieve the comments from the given array', () => {
+            spyOn(ctrl.hackerRankService, 'getItem').and.callThrough();
+            ctrl.retrieveComments(dummyTopItemsResponse);
+            expect(ctrl.hackerRankService.getItem).toHaveBeenCalled();
+        });
+
+        it('should retrieve the comments from the given array', () => {
+            let responseError = 'dummyResponseError';
+            ctrl.hackerRankService.getItem = (itemId: any, callback: Function) => {
+                expect(itemId).toBeDefined();
+                callback(responseError);
+            };
+            spyOn(ctrl.hackerRankService, 'getItem').and.callThrough();
+            spyOn(console, 'log');
+            ctrl.retrieveComments(dummyTopItemsResponse);
+            expect(console.log).toHaveBeenCalledWith('dummyResponseError');
+            expect(ctrl.hackerRankService.getItem).toHaveBeenCalled();
+        });
 
     });
 
@@ -87,7 +149,7 @@ describe('HomeController', () => {
             ctrl.resetComments();
             expect(ctrl.hackerRankService.clearComments).toHaveBeenCalled();
             expect(ctrl.isCollapsed).toEqual(true);
-          });
+        });
 
     });
 });

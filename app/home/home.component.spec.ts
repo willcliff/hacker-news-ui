@@ -2,7 +2,7 @@ import { HomeComponent } from './home.component';
 import { app } from '../app';
 import { HackerRankService } from '../common/services/hackerrank.service';
 import { Constants } from '../common/constants';
-import { dummyTopStoriesResponse, dummyItem1 } from '../common/mock-objects';
+import { dummyTopItemsResponse, dummyItem1 } from '../common/mock-objects';
 import { Item } from '../common/models/item';
 
 describe('HomeController', () => {
@@ -22,7 +22,7 @@ describe('HomeController', () => {
                     };
                     this.getTopItemIds = (requestType: string, callback: Function) => {
                         expect(requestType).toEqual(Constants.TOP_STORIES);
-                        callback(null, dummyTopStoriesResponse);
+                        callback(null, dummyTopItemsResponse);
                     };
                     this.setStories = (story: Item) => {
                         this.stories.push(story);
@@ -64,7 +64,7 @@ describe('HomeController', () => {
             ctrl.numItemsToDisplay = 5;
             ctrl.$onInit();
             expect(ctrl.hackerRankService.getTopItemIds).toHaveBeenCalled();
-            expect(ctrl.itemIds).toEqual(dummyTopStoriesResponse);
+            expect(ctrl.itemIds).toEqual(dummyTopItemsResponse);
         });
 
         it('should log an error if an error occues retrieving the topItemIds', () => {
@@ -92,11 +92,11 @@ describe('HomeController', () => {
 
     describe('retrieveItems', () => {
 
-        it('should retrieve the top 5 items and set currentItemsDisplayed as 5', () => {
+        it('should retrieve the top 5', () => {
             ctrl.currentItemsDisplayed = 0;
             ctrl.numItemsToDisplay = 5;
-            ctrl.retrieveItems(dummyTopStoriesResponse);
-            expect(ctrl.hackerRankService.stories.length).toEqual(ctrl.currentItemsDisplayed);
+            ctrl.retrieveItems(dummyTopItemsResponse);
+            expect(ctrl.hackerRankService.getStories().length).toEqual(ctrl.numItemsToDisplay);
         });
 
         it('should log an error if an error occues retrieving an item', () => {
@@ -112,14 +112,24 @@ describe('HomeController', () => {
 
         it('should retrieve the next 5 items when retrievItems is called a second time  and set currentItemsDisplayed as 10', () => {
             spyOn(ctrl.hackerRankService, 'setStories').and.callThrough();
-            ctrl.currentItemsDisplayed = 0;
+            ctrl.currentItemsDisplayed = 5;
             ctrl.numItemsToDisplay = 5;
-            ctrl.retrieveItems(dummyTopStoriesResponse);
-            expect(ctrl.hackerRankService.stories.length).toEqual(ctrl.numItemsToDisplay);
+            ctrl.hackerRankService.stories.length = 5;
 
-            ctrl.retrieveItems(dummyTopStoriesResponse, ctrl.currentItemsDisplayed);
-            expect(ctrl.hackerRankService.setStories).toHaveBeenCalledTimes(10);
+            ctrl.retrieveItems(dummyTopItemsResponse, ctrl.currentItemsDisplayed);
+            expect(ctrl.hackerRankService.setStories).toHaveBeenCalledTimes(5);
             expect(ctrl.hackerRankService.stories.length).toEqual(10);
+        });
+
+        it('should retrieve the next 5 items when retrievItems is called a third time  and set currentItemsDisplayed as 15', () => {
+            spyOn(ctrl.hackerRankService, 'setStories').and.callThrough();
+            ctrl.currentItemsDisplayed = 10;
+            ctrl.numItemsToDisplay = 5;
+            ctrl.hackerRankService.stories.length = 10;
+
+            ctrl.retrieveItems(dummyTopItemsResponse, ctrl.currentItemsDisplayed);
+            expect(ctrl.hackerRankService.setStories).toHaveBeenCalledTimes(5);
+            expect(ctrl.hackerRankService.stories.length).toEqual(15);
         });
 
     });

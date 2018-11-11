@@ -26,17 +26,17 @@ export class HomeController implements ng.IController {
     public retrieveItems(itemIds: Array<number>, currentItemsDisplayed?: number) {
         if (currentItemsDisplayed) {
             this.currentItemsDisplayed = currentItemsDisplayed;
-            this.numItemsToDisplay = this.numItemsToDisplay + currentItemsDisplayed;
+            console.log('WIll test currentItemsDisplayed = ', currentItemsDisplayed);
+            console.log('WIll test numItemsToDisplay = ', this.numItemsToDisplay);
         }
-            itemIds.slice(this.currentItemsDisplayed, this.numItemsToDisplay).forEach((itemId: number, index: number) => {
-                this.hackerRankService.getItem(itemId, (getItemError: any, item: Item) => {
-                    if (!getItemError) {
-                        this.hackerRankService.setStories(item);
-                        this.currentItemsDisplayed = index + 1;
-                    } else {
-                        console.log(getItemError);
-                    }
-                });
+        itemIds.slice(this.currentItemsDisplayed, this.currentItemsDisplayed + this.numItemsToDisplay).forEach((itemId: number) => {
+            this.hackerRankService.getItem(itemId, (getItemError: any, item: Item) => {
+                if (!getItemError) {
+                    this.hackerRankService.setStories(item);
+                } else {
+                    console.log(getItemError);
+                }
             });
+        });
     }
 }

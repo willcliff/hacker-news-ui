@@ -1,7 +1,7 @@
 import { HackerRankService } from './hackerrank.service';
 import { app } from '../../app';
 import { Constants } from '../constants';
-import { dummyItem1, dummyTopStoriesResponse, dummyItemsArray, dummyItem2 } from '../mock-objects';
+import { dummyItem1, dummyTopItemsResponse, dummyItemsArray, dummyItem2 } from '../mock-objects';
 import { Item } from '../models/item';
 
 describe('Service: siteService', () => {
@@ -58,10 +58,10 @@ describe('Service: siteService', () => {
   describe('getTopStories', () => {
     it('should get the top stories from the hacker rank service', (done) => {
       httpBackend.when('GET', Constants.TOP_ITEMS_URL(Constants.TOP_STORIES))
-        .respond(dummyTopStoriesResponse);
+        .respond(dummyTopItemsResponse);
       hackerRankService.getTopItemIds(Constants.TOP_STORIES, (error: any, itemIds: Array<number>) => {
         expect(error).toBeNull();
-        expect(itemIds).toEqual(dummyTopStoriesResponse);
+        expect(itemIds).toEqual(dummyTopItemsResponse);
         done();
       });
       httpBackend.flush();

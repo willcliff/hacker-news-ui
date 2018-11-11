@@ -29,11 +29,7 @@ export class ItemController implements ng.IController {
         if (commentIds && this.isCollapsed) {
             this.$rootScope.$broadcast(Constants.CLOSE_OPEN_COMMENTS);
             this.isCollapsed = !this.isCollapsed;
-            if (!this.isCollapsed) {
-                    this.retrieveComments(commentIds);
-            } else {
-                this.hackerRankService.clearComments();
-            }
+            this.retrieveComments(commentIds);
         } else {
             this.resetComments();
         }

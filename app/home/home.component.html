@@ -7,7 +7,7 @@
       <hacker-item data="item" itemNum="$index" ng-repeat="item in ctrl.hackerRankService.getStories()"></hacker-item>
 
       <small class="expand-text d-block text-right mt-3">
-        <a href="" ng-click="ctrl.retrieveItems(ctrl.itemIds, ctrl.numItemsToDisplay)">See more</a>
+        <a href="" ng-click="ctrl.retrieveItems(ctrl.itemIds, ctrl.hackerRankService.getStories().length)">See more</a>
       </small>
     </div>
   </div>
